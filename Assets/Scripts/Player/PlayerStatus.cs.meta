@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Oculus/Interaction/Editor/AutoWiring/AutoWiring.cs.meta
+guid: d8f71aea057ed3f45a51cfefa7450ef6
+========
+guid: 2426ddd8bda4143a9ac480fd0f14ac06
+>>>>>>>> parent of 72e0270 (merge 0525):Assets/Scripts/Player/PlayerStatus.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,14 @@
+The "industrial signs pack" contains 35 signs and 3 assets ready to fill up your level.
+good for third person and fps games.
+
+
+All objects are .fbx format files and all the texture maps are .tga files.
+
+This pack contains:
+- LODs where needed.
+- al the objects contains a specular and a diffuse map.
+- Some objects has a normal map.
+- Extra uv channel for your lightmaps.
+
+
+We would love to hear your rating and comment.
