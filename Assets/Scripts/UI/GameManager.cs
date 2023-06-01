@@ -125,12 +125,12 @@ public class GameManager : MonoBehaviour
         //     ttscheck = true;
         // }
 
-        // Quest 달성 조건
-        // if (interection.interectFireDrill == true) // "Ring FireDrill" 퀘스트 빨간 텍스트 반영
-        // {
-        //     questText1.text = "<color=#ff0000>" + "+ call" + "</color>";
-        //     // TTS2.SetActive(true);
-        // }
+        //Quest 달성 조건
+        if (interection.interectphone == true) // "Ring FireDrill" 퀘스트 빨간 텍스트 반영
+        {
+            questText1.text = "<color=#ff0000>" + "+ call" + "</color>";
+            // TTS2.SetActive(true);
+        }
 
         if (interection.doorOpen == true)
         {

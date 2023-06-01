@@ -39,6 +39,7 @@ public class Playerinteraction : MonoBehaviour
     [SerializeField] LayerMask bungeeLayer; // 점프대 LayerMask
     [SerializeField] LayerMask fireex; // 점프대 LayerMask
     [SerializeField] LayerMask GoalPointLayer; // 점프대 LayerMask
+    [SerializeField] LayerMask phoneLayer; // 전화기 LayerMask
     public AidPersonFollowTarget doAidPersonMove; // 응급환자이동
     public float interactionDistance = 4f; // 상호작용을 위해 필요한 거리
     private OVRInput.Controller controller = OVRInput.Controller.LTouch; // 왼손 컨트롤러를 사용하는 경우
@@ -54,6 +55,7 @@ public class Playerinteraction : MonoBehaviour
     public bool interectfireex = false;
     public bool goal = false;
     public bool gravitylow = false;
+    public bool interectphone = false;
 
     Animator animator;
     Animator anim;
@@ -64,6 +66,7 @@ public class Playerinteraction : MonoBehaviour
     public AudioClip bgm3; // 다친 사람을 구하라는 오디오
     public AudioClip bgm4; // 건물을 탈출하라는 오디오
     public AudioClip bgm5; // 엘리베이터를 타지 말라는 오디오
+    public AudioClip bgm6; // 엘리베이터를 타지 말라는 오디오
 
     void Start()
     {
@@ -113,6 +116,8 @@ public class Playerinteraction : MonoBehaviour
             RaycastHit hitinfo12;
             RaycastHit hitinfo13;
             RaycastHit hitinfo14;
+            RaycastHit hitinfo15;
+
             if (Physics.Raycast(ray, out hitinfo1, interactionDistance, firedrillLayer)) // 소화벨 상호작용
             {
                 PlayFireDrill();
@@ -176,15 +181,21 @@ public class Playerinteraction : MonoBehaviour
                 // this.animator.enabled = true;
                 ovrplayer.GravityModifier = 0.001f;
                 gravitylow = true;
+                OVRInput.SetControllerVibration(1.0f, 1.0f, OVRInput.Controller.RTouch); // 오른쪽 컨트롤러 진동 트리거
             }
             if (Physics.Raycast(ray, out hitinfo13, interactionDistance, fireex))
             {
                 interectfireex = true;
             }
             if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out hitinfo14, 1.7f, GoalPointLayer))
-        {
-            goal = true;
-        }
+            {
+                goal = true;
+            }
+            if (Physics.Raycast(ray, out hitinfo15, interactionDistance, phoneLayer))
+            {
+                interectphone = true;
+                audioData.PlayOneShot(bgm6);
+            }
         }
     }
 
