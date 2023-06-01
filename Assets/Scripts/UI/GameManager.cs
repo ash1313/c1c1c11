@@ -100,156 +100,71 @@ public class GameManager : MonoBehaviour
                 ttsTime = true;
             }
         }
+        if (playTime >= 0 && player.firelive == true)
+        {
+            player.health = Mathf.Round(limitTime);
+        }
+   
+    
+         // scoreText.text = string.Format("{0:n0}", player.score);
+        // stageText.text = "STAGE" + stage;
+
+        int hour = (int)(playTime / 3600);
+        int min = (int)((playTime - hour * 3600) / 60);
+        int second = (int)(playTime % 60);
+        playTimeText.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
+        // playerHealthText.text = player.health + " / " + player.maxHealth; // 플레이어 UI
+
+        /* --------bgm0-------- */
+        if (ttsTime == true && ttscheck == false)
+        {
+            audioData.PlayOneShot(bgm0);
+            ttscheck = true;
+        }
+
+        // Quest 달성 조건
+        if (interection.interectFireDrill == true) // "Ring FireDrill" 퀘스트 빨간 텍스트 반영
+        {
+            questText1.text = "<color=#ff0000>" + "+ Ring FireDrill" + "</color>";
+            // TTS2.SetActive(true);
+        }
+
+        if (PickUpDrop.pickup == true) // "Hold FireEx" 퀘스트 빨간 텍스트 반영
+        {
+            questText2.text = "<color=#ff0000>" + "+ Hold FireEx" + "</color>";
+            // TTS2.SetActive(false);
+            // TTS3.SetActive(true);
+        }
+
+        if (player.firelive == false) // "Turn Off Fire" 퀘스트 빨간 텍스트 반영
+        {
+            questText3.text = "<color=#ff0000>" + "+ Turn Off Fire" + "</color>";
+            // TTS3.SetActive(false);
+            // TTS4.SetActive(true);
+        }
+
+        if (AidPerson.liveperson == true) // "Aid The Injured" 퀘스트 빨간 텍스트 반영
+        {
+            questText4.text = "<color=#ff0000>" + "+ Aid The Injured" + "</color>";
+            // TTS4.SetActive(false);
+            // TTS5.SetActive(true);
+        }
+
+        if (interection.interectElevator == true) // 엘리베이터 사용 경고 TTS 작동
+        {
+            // TTS5.SetActive(false);
+            // TTS6.SetActive(true);
+            // TTS7.SetActive(true);
+        }
+
+        if (PickUpDrop.goal == true) // "Escape Office" 퀘스트 빨간 텍스트 반영
+        {
+            questText5.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
+            // TTS6.SetActive(false);
+            // TTS7.SetActive(false);
+        }
+
+
     }
+
 }
-        // if (playTime >= 0 && player.firelive == true)
-        // {
-        //     player.health = Mathf.Round(limitTime);
-        // }
-         // A 버튼을 누를 때
-        // if (OVRInput.GetDown(OVRInput.Button.Two))
-        // {
-        //     if (nozzleRotationCoroutine != null)
-        //         StopCoroutine(nozzleRotationCoroutine);
-
-        //     rotateNozzle = true;
-        //     nozzleRotationCoroutine = StartCoroutine(RotateNozzleCoroutine1(buttonRotationSpeed));
-        // }
-        // else if (OVRInput.GetUp(OVRInput.Button.Two))
-        // {
-        //     rotateNozzle = false;
-        // }
-        //         // B 버튼을 누를 때
-        // if (OVRInput.GetDown(OVRInput.Button.One))
-        // {
-        //     if (nozzleRotationCoroutine != null)
-        //         StopCoroutine(nozzleRotationCoroutine);
-
-        //     rotateNozzle = true;
-        //     nozzleRotationCoroutine = StartCoroutine(RotateNozzleCoroutine2(buttonRotationSpeed));
-        // }
-        // else if (OVRInput.GetUp(OVRInput.Button.One))
-        // {
-        //     rotateNozzle = false;
-        // }
-    //                 // X 버튼을 누를 때
-    //    if (OVRInput.GetDown(OVRInput.Button.Three))
-    //     {
-    //         if (LeverRotationCoroutine != null)
-    //             StopCoroutine(LeverRotationCoroutine);
-
-    //         rotateLever = true;
-    //         LeverRotationCoroutine = StartCoroutine(RotateLeverCoroutine1(buttonRotationSpeed,15f));
-    //         if(seallock == false)
-    //         {
-    //             PlayParticle();
-    //             OVRInput.SetControllerVibration(1.0f, 1.0f, OVRInput.Controller.RTouch); // 오른쪽 컨트롤러 진동 트리거
-    //             OVRInput.SetControllerVibration(1.0f, 1.0f, OVRInput.Controller.LTouch); //왼쪽 컨트롤러 진동 트리거
-    //             RaycastHit hit;
-    //             Ray ray = new Ray(transform.position, transform.forward);
-
-    //             if (Physics.Raycast(ray, out hit))
-    //             {
-    //                 if (hit.collider.gameObject == fireExParticle.gameObject)
-    //                 {
-    //                     // fireExParticle이 충돌한 경우
-    //                     if (fireParticle != null)
-    //                     {
-    //                         fireParticle.GetComponent<ParticleSystem>().Stop(); // fireParticle 비활성화
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         }
-    //    else if (OVRInput.GetUp(OVRInput.Button.Three))
-    //    {
-    //        rotateLever = false;
-    //        lever.localRotation = Quaternion.identity;
-    //        StopParticle();
-        
-
-                // Y 버튼을 누르거나 뗄 때
-    //    if (OVRInput.GetDown(OVRInput.Button.Four))
-    //    {
-    //        seallock = false;
-    //        seal.transform.position = new Vector3(1000,0,0);
-    //    }
-    //}
-
-    // void LateUpdate()
-    // {
-    //     // scoreText.text = string.Format("{0:n0}", player.score);
-    //     stageText.text = "STAGE" + stage;
-
-    //     int hour = (int)(playTime / 3600);
-    //     int min = (int)((playTime - hour * 3600) / 60);
-    //     int second = (int)(playTime % 60);
-    //     playTimeText.text = string.Format("{0:00}", hour) + ":" + string.Format("{0:00}", min) + ":" + string.Format("{0:00}", second);
-    //     // playerHealthText.text = player.health + " / " + player.maxHealth; // 플레이어 UI
-
-    //     /* --------bgm0-------- */
-    //     if (ttsTime == true && ttscheck == false)
-    //     {
-    //         audioData.PlayOneShot(bgm0);
-    //         ttscheck = true;
-    //     }
-
-    //     // Quest 달성 조건
-    //     if (interection.interectFireDrill == true) // "Ring FireDrill" 퀘스트 빨간 텍스트 반영
-    //     {
-    //         questText1.text = "<color=#ff0000>" + "+ Ring FireDrill" + "</color>";
-    //         TTS2.SetActive(true);
-    //     }
-
-    //     if (PickUpDrop.pickup == true) // "Hold FireEx" 퀘스트 빨간 텍스트 반영
-    //     {
-    //         questText2.text = "<color=#ff0000>" + "+ Hold FireEx" + "</color>";
-    //         TTS2.SetActive(false);
-    //         TTS3.SetActive(true);
-    //     }
-
-    //     if (player.firelive == false) // "Turn Off Fire" 퀘스트 빨간 텍스트 반영
-    //     {
-    //         questText3.text = "<color=#ff0000>" + "+ Turn Off Fire" + "</color>";
-    //         TTS3.SetActive(false);
-    //         TTS4.SetActive(true);
-    //     }
-
-    //     if (AidPerson.liveperson == true) // "Aid The Injured" 퀘스트 빨간 텍스트 반영
-    //     {
-    //         questText4.text = "<color=#ff0000>" + "+ Aid The Injured" + "</color>";
-    //         TTS4.SetActive(false);
-    //         TTS5.SetActive(true);
-    //     }
-
-    //     if (interection.interectElevator == true) // 엘리베이터 사용 경고 TTS 작동
-    //     {
-    //         TTS5.SetActive(false);
-    //         TTS6.SetActive(true);
-    //         TTS7.SetActive(true);
-    //     }
-
-    //     if (PickUpDrop.goal == true) // "Escape Office" 퀘스트 빨간 텍스트 반영
-    //     {
-    //         questText5.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
-    //         TTS6.SetActive(false);
-    //         TTS7.SetActive(false);
-    //     }
-    // }
-    // }
-    //     private void PlayParticle()
-    // {
-    //     if (!fireExParticle.GetComponent<ParticleSystem>().isPlaying)
-    //     {
-    //         fireExParticle.GetComponent<ParticleSystem>().Play();
-    //     }
-    // }
-
-    // // 소화기 분사 종료
-    // private void StopParticle()
-    // {
-    //     if (fireExParticle.GetComponent<ParticleSystem>().isPlaying)
-    //     {
-    //         fireExParticle.GetComponent<ParticleSystem>().Stop();
-    //     }
-    // }
