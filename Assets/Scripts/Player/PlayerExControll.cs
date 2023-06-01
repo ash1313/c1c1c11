@@ -66,14 +66,13 @@ public class PlayerExControll : MonoBehaviour
 
             rotateNozzle = true;
             nozzleRotationCoroutine = StartCoroutine(RotateNozzleCoroutine2(buttonRotationSpeed));
-            canvas.SetActive(!canvas.activeSelf);
         }
         else if (OVRInput.GetUp(OVRInput.Button.One))
         {
             rotateNozzle = false;
         }
         //x버튼
-        if (OVRInput.GetDown(OVRInput.Button.Three))
+        if (OVRInput.Get(OVRInput.Button.Three))
         {
             RaycastHit hit;
             Ray ray = new Ray(fireExTransform.position, fireExTransform.forward);
@@ -90,7 +89,7 @@ public class PlayerExControll : MonoBehaviour
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
                 {
                     /* fireDecreaseRate만큼 fireParticle의 startSize을 Update 갱신시마다 줄인다. */
-                    fireParticle.GetComponent<ParticleSystem>().startSize -= 0.1f;
+                    fireParticle.GetComponent<ParticleSystem>().startSize -= 0.01f;
                     Debug.Log("fire particle reducing. current size: " + fireParticle.GetComponent<ParticleSystem>().startSize);
                 }
             }
@@ -108,6 +107,8 @@ public class PlayerExControll : MonoBehaviour
         {
             seallock = false;
             seal.transform.position = new Vector3(1000,0,0);
+            canvas.SetActive(!canvas.activeSelf);
+
         }
 
         if (fireParticle.startSize <= 0.2) /* 불의 크기가 0.2 이하로 줄어들면 꺼진다. */

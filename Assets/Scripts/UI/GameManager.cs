@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     public Text questText3; // 퀘스트3 Text
     public Text questText4; // 퀘스트4 Text
     public Text questText5; // 퀘스트5 Text
+    public Text questText6; // 퀘스트6 Text
+    public Text questText7; // 퀘스트7 Text
 
     public GameObject TTS1;
     public GameObject TTS2;
@@ -123,46 +125,55 @@ public class GameManager : MonoBehaviour
         }
 
         // Quest 달성 조건
-        if (interection.interectFireDrill == true) // "Ring FireDrill" 퀘스트 빨간 텍스트 반영
-        {
-            questText1.text = "<color=#ff0000>" + "+ Ring FireDrill" + "</color>";
-            // TTS2.SetActive(true);
-        }
+        // if (interection.interectFireDrill == true) // "Ring FireDrill" 퀘스트 빨간 텍스트 반영
+        // {
+        //     questText1.text = "<color=#ff0000>" + "+ call" + "</color>";
+        //     // TTS2.SetActive(true);
+        // }
 
-        if (PickUpDrop.pickup == true) // "Hold FireEx" 퀘스트 빨간 텍스트 반영
+        if (interection.doorOpen == true)
         {
-            questText2.text = "<color=#ff0000>" + "+ Hold FireEx" + "</color>";
+            questText2.text = "<color=#ff0000>" + "+ Destroy Firewall" + "</color>";
             // TTS2.SetActive(false);
             // TTS3.SetActive(true);
         }
 
-        if (player.firelive == false) // "Turn Off Fire" 퀘스트 빨간 텍스트 반영
+        if (interection.interectFireDrill == true) 
         {
-            questText3.text = "<color=#ff0000>" + "+ Turn Off Fire" + "</color>";
+            questText3.text = "<color=#ff0000>" + "+ Ring FireDrill" + "</color>";
             // TTS3.SetActive(false);
             // TTS4.SetActive(true);
         }
 
-        if (AidPerson.liveperson == true) // "Aid The Injured" 퀘스트 빨간 텍스트 반영
+        if ( interection.interectfireex== true)
         {
-            questText4.text = "<color=#ff0000>" + "+ Aid The Injured" + "</color>";
+            questText4.text = "<color=#ff0000>" + "+ Hold FireEx" + "</color>";
             // TTS4.SetActive(false);
             // TTS5.SetActive(true);
         }
 
-        if (interection.interectElevator == true) // 엘리베이터 사용 경고 TTS 작동
+        if ( player.firelive== false)
         {
-            // TTS5.SetActive(false);
-            // TTS6.SetActive(true);
-            // TTS7.SetActive(true);
-        }
-
-        if (PickUpDrop.goal == true) // "Escape Office" 퀘스트 빨간 텍스트 반영
-        {
-            questText5.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
+            questText5.text = "<color=#ff0000>" + "+ Turn Off Fire" + "</color>";
             // TTS6.SetActive(false);
             // TTS7.SetActive(false);
         }
+        
+        if (AidPerson.liveperson == true) 
+        {
+            questText5.text = "<color=#ff0000>" + "+ Aid The Injured" + "</color>";
+            // TTS6.SetActive(false);
+            // TTS7.SetActive(false);
+        }
+
+
+        // if (PickUpDrop.goal == true) 
+        // {
+        //     questText5.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
+        //     // TTS6.SetActive(false);
+        //     // TTS7.SetActive(false);
+        // }
+
 
 
     }

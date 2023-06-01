@@ -73,7 +73,7 @@ public class Playerinteraction : MonoBehaviour
         if (OVRInput.GetDown(OVRInput.Button.One))
         {
             Ray ray = new Ray(playerCameraTransform.position, playerCameraTransform.forward);
-             RaycastHit hitinfo1;
+            RaycastHit hitinfo1;
             RaycastHit hitinfo2;
             RaycastHit hitinfo3;
             RaycastHit hitinfo4;
