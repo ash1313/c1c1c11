@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public PlayerExControll player; // 소화기 조작
     public Playerinteraction interection; // 상호작용
     public PlayerPickUpDrop PickUpDrop; // 들었다놓기
+    public Transform human;
     public AidPersonFollowTarget AidPerson; // 응급환자
     public int stage; // 시나리오
     public float playTime; // 게임 이용 시간
@@ -166,9 +167,15 @@ public class GameManager : MonoBehaviour
             // TTS7.SetActive(false);
         }
 
-        if (interection.goal == true) 
+        if (human.transform.position.y <= 1f)
         {
             questText7.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
+        }
+
+        if (interection.goal == true) 
+        {
+            
+            // questText7.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
             SceneManager.LoadScene("main");
             // TTS6.SetActive(false);
             // TTS7.SetActive(false);
