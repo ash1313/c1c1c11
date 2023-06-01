@@ -7,10 +7,9 @@ public class PlayerExControll : MonoBehaviour
         // 소화기
     public Transform lever; // 레버
     public Transform nozzle; // 노즐
-    public Transform seal; // 노즐
+    public GameObject seal; // 노즐
     public float buttonRotationSpeed = 10f; // 버튼 회전 속도
     public GameObject canvas;
-
     private bool rotateNozzle = false; // 노즐 회전 여부
     private bool rotateLever = false; // 레버 회전 여부
     private bool seallock = true; // 안전핀 해제 여부
@@ -53,6 +52,8 @@ public class PlayerExControll : MonoBehaviour
 
             rotateNozzle = true;
             nozzleRotationCoroutine = StartCoroutine(RotateNozzleCoroutine1(buttonRotationSpeed));
+            seallock = false;
+            seal.SetActive(false);
         }
         else if (OVRInput.GetUp(OVRInput.Button.Two))
         {
@@ -72,28 +73,32 @@ public class PlayerExControll : MonoBehaviour
             rotateNozzle = false;
         }
         //x버튼
-        if (OVRInput.Get(OVRInput.Button.Three))
+    if (OVRInput.GetDown(OVRInput.Button.Three)){
+
+        if (LeverRotationCoroutine != null)
+            StopCoroutine(LeverRotationCoroutine);
+            LeverRotationCoroutine = StartCoroutine(RotateLeverCoroutine1(buttonRotationSpeed, 20f));
+    }
+
+    if (OVRInput.Get(OVRInput.Button.Three))
+    {
+        RaycastHit hit;
+        Ray ray = new Ray(fireExTransform.position, fireExTransform.forward);
+        rotateLever = true;
+
+        if (seallock == false)
         {
-            RaycastHit hit;
-            Ray ray = new Ray(fireExTransform.position, fireExTransform.forward);
-            if (LeverRotationCoroutine != null)
-                StopCoroutine(LeverRotationCoroutine);
-            rotateLever = true;
-            LeverRotationCoroutine = StartCoroutine(RotateLeverCoroutine1(buttonRotationSpeed,15f));
-            if(seallock == false)
+            PlayParticle();
+            OVRInput.SetControllerVibration(1.0f, 1.0f, OVRInput.Controller.RTouch); // 오른쪽 컨트롤러 진동 트리거
+            OVRInput.SetControllerVibration(1.0f, 1.0f, OVRInput.Controller.LTouch); //왼쪽 컨트롤러 진동 트리거
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
             {
-                PlayParticle();
-                OVRInput.SetControllerVibration(1.0f, 1.0f, OVRInput.Controller.RTouch); // 오른쪽 컨트롤러 진동 트리거
-                OVRInput.SetControllerVibration(1.0f, 1.0f, OVRInput.Controller.LTouch); //왼쪽 컨트롤러 진동 트리거
-                
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
-                {
-                    /* fireDecreaseRate만큼 fireParticle의 startSize을 Update 갱신시마다 줄인다. */
-                    fireParticle.GetComponent<ParticleSystem>().startSize -= 0.01f;
-                    Debug.Log("fire particle reducing. current size: " + fireParticle.GetComponent<ParticleSystem>().startSize);
-                }
+                /* fireDecreaseRate만큼 fireParticle의 startSize을 Update 갱신시마다 줄인다. */
+                fireParticle.GetComponent<ParticleSystem>().startSize -= 0.1f;
+                Debug.Log("fire particle reducing. current size: " + fireParticle.GetComponent<ParticleSystem>().startSize);
             }
         }
+    }
         else if(OVRInput.GetUp(OVRInput.Button.Three))
             {
                 rotateLever = false;
@@ -105,8 +110,7 @@ public class PlayerExControll : MonoBehaviour
                         // Y 버튼을 누르거나 뗄 때
         if (OVRInput.GetDown(OVRInput.Button.Four))
         {
-            seallock = false;
-            seal.transform.position = new Vector3(1000,0,0);
+
             canvas.SetActive(!canvas.activeSelf);
 
         }
@@ -146,17 +150,15 @@ public class PlayerExControll : MonoBehaviour
     IEnumerator RotateLeverCoroutine1(float rotationSpeed, float maxRotation)
     {
         Quaternion startRotation = lever.rotation;
-        Quaternion targetRotation = lever.rotation * Quaternion.Euler(maxRotation, 0f, 0f);
+        Quaternion targetRotation = startRotation * Quaternion.Euler(maxRotation, 0f, 0f);
+        float currentRotation = 0f;
 
-        while (rotateLever && lever.rotation != targetRotation)
+        while (currentRotation < maxRotation)
         {
             lever.rotation = Quaternion.RotateTowards(lever.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
+            currentRotation = Quaternion.Angle(startRotation, lever.rotation);
             yield return null;
         }
-
-        if (!rotateLever)
-            lever.rotation = startRotation;
     }
     private void PlayParticle() // 소화기 분사
     {

@@ -67,7 +67,7 @@ public class Playerinteraction : MonoBehaviour
 
     void Start()
     {
-        // audioData = GetComponent<AudioSource>();
+        audioData = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         anim = GetComponentInChildren<Animator>();
         lr = GetComponent<LineRenderer>();
