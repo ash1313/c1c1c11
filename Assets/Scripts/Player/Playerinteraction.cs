@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Playerinteraction : MonoBehaviour
-{
+{   public OVRPlayerController ovrplayer;
     public GameManager manager; // 게임 매니저
     public Playerinteraction player; // 소화기 조작
     public Playerinteraction interection; // 상호작용
@@ -38,6 +38,7 @@ public class Playerinteraction : MonoBehaviour
     [SerializeField] LayerMask heelLayer; // 휠 LayerMask
     [SerializeField] LayerMask bungeeLayer; // 점프대 LayerMask
     [SerializeField] LayerMask fireex; // 점프대 LayerMask
+    [SerializeField] LayerMask GoalPointLayer; // 점프대 LayerMask
     public AidPersonFollowTarget doAidPersonMove; // 응급환자이동
     public float interactionDistance = 4f; // 상호작용을 위해 필요한 거리
     private OVRInput.Controller controller = OVRInput.Controller.LTouch; // 왼손 컨트롤러를 사용하는 경우
@@ -51,8 +52,12 @@ public class Playerinteraction : MonoBehaviour
     public bool interecthandle = false;
     public bool hangdoru = false; // 실린더에 도르래를 거는 여부
     public bool interectfireex = false;
+    public bool goal = false;
+    public bool gravitylow = false;
 
-
+    Animator animator;
+    Animator anim;
+    LineRenderer lr;
 
     public AudioSource audioData; // 오디오 Component
     public AudioClip bgm1; // 소화기 잡으라는 오디오
@@ -63,13 +68,34 @@ public class Playerinteraction : MonoBehaviour
     void Start()
     {
         // audioData = GetComponent<AudioSource>();
-        // animator = GetComponent<Animator>();
-        //anim = GetComponentInChildren<Animator>();
-        //lr = GetComponent<LineRenderer>();
+        animator = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
+        lr = GetComponent<LineRenderer>();
     }
 
     private void Update()
     {
+        if (interecthandle == true && OVRInput.GetDown(OVRInput.Button.One))
+        {
+            animator.SetBool("isDown", true);
+        }
+
+        lr.positionCount = 3;   
+        if (hangdoru == true)
+        {
+            if (interecthandle == false) // 테이블 벨트에 실 연결
+            {
+                lr.SetPosition(0, handle1.transform.position);
+                lr.SetPosition(1, doru3.transform.position);
+                lr.SetPosition(2, heel.transform.position);
+            }
+            else // 플레이어 벨트에 실 연결
+            {
+                lr.SetPosition(0, handle2.transform.position);
+                lr.SetPosition(1, doru3.transform.position);
+                lr.SetPosition(2, heel.transform.position);
+            }
+        }
         if (OVRInput.GetDown(OVRInput.Button.One))
         {
             Ray ray = new Ray(playerCameraTransform.position, playerCameraTransform.forward);
@@ -86,6 +112,7 @@ public class Playerinteraction : MonoBehaviour
             RaycastHit hitinfo11;
             RaycastHit hitinfo12;
             RaycastHit hitinfo13;
+            RaycastHit hitinfo14;
             if (Physics.Raycast(ray, out hitinfo1, interactionDistance, firedrillLayer)) // 소화벨 상호작용
             {
                 PlayFireDrill();
@@ -140,18 +167,24 @@ public class Playerinteraction : MonoBehaviour
                     hangdoru = true;
                 }
             }
-            if (Physics.Raycast(ray, out hitinfo11, interactionDistance, heelLayer)) // 휠 상호작용
-            {
-                
-            }
-            // if (Physics.Raycast(ray, out hitinfo12, interactionDistance, bungeeLayer))
+            // if (Physics.Raycast(ray, out hitinfo11, interactionDistance, heelLayer)) // 휠 상호작용
             // {
-            //     this.animator.enabled = true;
+                
             // }
+            if (Physics.Raycast(ray, out hitinfo12, interactionDistance, bungeeLayer))
+            {
+                // this.animator.enabled = true;
+                ovrplayer.GravityModifier = 0.001f;
+                gravitylow = true;
+            }
             if (Physics.Raycast(ray, out hitinfo13, interactionDistance, fireex))
             {
                 interectfireex = true;
             }
+            if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out hitinfo14, 1.7f, GoalPointLayer))
+        {
+            goal = true;
+        }
         }
     }
 
@@ -205,6 +238,7 @@ public class Playerinteraction : MonoBehaviour
             doorOpen = false;
         }
     }
+    
 
 
 

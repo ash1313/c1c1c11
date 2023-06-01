@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
         // 소화기 분사 Particle
@@ -166,12 +166,13 @@ public class GameManager : MonoBehaviour
             // TTS7.SetActive(false);
         }
 
-        // if (interection.goal == true) 
-        // {
-        //     questText7.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
-        //     // TTS6.SetActive(false);
-        //     // TTS7.SetActive(false);
-        // }
+        if (interection.goal == true) 
+        {
+            questText7.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
+            SceneManager.LoadScene("main");
+            // TTS6.SetActive(false);
+            // TTS7.SetActive(false);
+        }
     }
 
 }
