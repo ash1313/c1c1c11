@@ -180,7 +180,7 @@ public class Playerinteraction : MonoBehaviour
 
     private void DoAidPerson()
     {
-        aidperson.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        //aidperson.transform.localRotation = Quaternion.Euler(0, 0, 0);
         aid.SetActive(false); // 응급처치도구 비활성화
         doAidPersonMove.liveperson = true; // 응급환자 일어남
         // 치료 되었다는 tts 작성 예정

@@ -118,11 +118,11 @@ public class GameManager : MonoBehaviour
         // playerHealthText.text = player.health + " / " + player.maxHealth; // 플레이어 UI
 
         /* --------bgm0-------- */
-        if (ttsTime == true && ttscheck == false)
-        {
-            audioData.PlayOneShot(bgm0);
-            ttscheck = true;
-        }
+        // if (ttsTime == true && ttscheck == false)
+        // {
+        //     audioData.PlayOneShot(bgm0);
+        //     ttscheck = true;
+        // }
 
         // Quest 달성 조건
         // if (interection.interectFireDrill == true) // "Ring FireDrill" 퀘스트 빨간 텍스트 반영
@@ -161,21 +161,17 @@ public class GameManager : MonoBehaviour
         
         if (AidPerson.liveperson == true) 
         {
-            questText5.text = "<color=#ff0000>" + "+ Aid The Injured" + "</color>";
+            questText6.text = "<color=#ff0000>" + "+ Aid The Injured" + "</color>";
             // TTS6.SetActive(false);
             // TTS7.SetActive(false);
         }
 
-
-        // if (PickUpDrop.goal == true) 
+        // if (interection.goal == true) 
         // {
-        //     questText5.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
+        //     questText7.text = "<color=#ff0000>" + "+ Escape Office" + "</color>";
         //     // TTS6.SetActive(false);
         //     // TTS7.SetActive(false);
         // }
-
-
-
     }
 
 }
